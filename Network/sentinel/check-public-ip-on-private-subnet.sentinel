@@ -1,12 +1,10 @@
 import "tfplan-functions" as plan
 
 # 프라이빗 서브넷 ID 목록 생성
-private_subnet_ids = [
-    subnet.change.after.id |
-        subnet in tfplan.resource_changes
-        if subnet.type is "aws_subnet" and
-        subnet.change.after.map_public_ip_on_launch is false
-]
+private_subnet_ids = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_subnet" and
+    rc.change.after.map_public_ip_on_launch is false
+}
 
 # (KR) Elastic IP가 프라이빗 서브넷의 리소스에 할당되지 않도록 확인
 # (EN) Ensure that your Elastic IP is not assigned to a resource on a private subnet
