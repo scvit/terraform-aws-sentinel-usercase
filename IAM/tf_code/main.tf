@@ -11,6 +11,6 @@ resource "aws_iam_account_password_policy" "strict" {
   password_reuse_prevention = 2 # 최근 2개의 패스워드 재사용 방지
 
   # 추가 보안을 위한 선택적 설정
-  max_password_age = 90   # 패스워드 만료 기간 (일)
+  max_password_age = 91   # 패스워드 만료 기간 (일)
   hard_expiry      = true # 만료된 패스워드 변경 강제
 }
