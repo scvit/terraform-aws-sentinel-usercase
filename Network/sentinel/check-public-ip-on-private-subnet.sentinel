@@ -19,16 +19,22 @@ is_null_or_empty = func(v) {
     return v is null or length(v) == 0
 }
 
-# (KR) Elastic IP가 프라이빗 서브넷의 리소스에 할당되지 않도록 확인
-# (EN) Ensure that your Elastic IP is not assigned to a resource on a private subnet
+# Elastic IP가 프라이빗 서브넷의 리소스에 할당되지 않도록 확인
 prevent_public_ip_on_private_subnet = rule {
     all tfplan.resource_changes as _, rc {
-        rc.type is not "aws_eip" or
+        (rc.type is not "aws_eip") or
         is_null_or_empty(rc.change.after) or
         (is_null_or_empty(rc.change.after.instance) and is_null_or_empty(rc.change.after.network_interface)) or
         all tfplan.resource_changes as _, instance_rc {
-            rc.change.after.instance is not instance_rc.address and
-            rc.change.after.network_interface is not instance_rc.address or
+            (rc.change.after.instance is not instance_rc.address and
+            rc.change.after.network_interface is not instance_rc.address) or
+            is_null_or_empty(instance_rc.change.after) or
+            is_null_or_empty(instance_rc.change.after.subnet_id) or
+            instance_rc.change.after.subnet_id not in private_subnet_ids
+        } and
+        all tfplan.resource_changes as _, instance_rc {
+            (rc.change.after_unknown.instance is not instance_rc.address and
+            rc.change.after_unknown.network_interface is not instance_rc.address) or
             is_null_or_empty(instance_rc.change.after) or
             is_null_or_empty(instance_rc.change.after.subnet_id) or
             instance_rc.change.after.subnet_id not in private_subnet_ids
