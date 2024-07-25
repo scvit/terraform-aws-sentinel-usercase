@@ -1,6 +1,14 @@
 # Terraform AWS Sentinel Usecase
 
-Hardening security in AWS with Terraform Sentinel
+> Hardening security in AWS with Terraform Sentinel
+
+
+
+(IAM Password policy check - example)
+
+![Monosnap run-8rURPeHguShHZ6B5 | Runs | policy_iam_password | great-stone-biz | HCP Terraform 2024-07-25 14-58-45](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-8rURPeHguShHZ6B5%20%7C%20Runs%20%7C%20policy_iam_password%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-25%2014-58-45.png)
+
+
 
 ## IAM Usecase
 
@@ -11,7 +19,8 @@ Hardening security in AWS with Terraform Sentinel
 | Prevent password reuse | Remember last 2 password(s) and prevent reuse                |
 
 - [IAM/sentinel/check-iam-password-complexity.sentinel](./IAM/sentinel/check-iam-password-complexity.sentinel)
-- 
+- [IAM/sentinel/check-iam-password-expiration.sentinel](./IAM/sentinel/check-iam-password-expiration.sentinel)
+- [IAM/sentinel/check-iam-password-reuse-count.sentinel](./IAM/sentinel/check-iam-password-reuse-count.sentinel)
 
 
 
