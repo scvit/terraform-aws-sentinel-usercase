@@ -10,6 +10,9 @@ Hardening security in AWS with Terraform Sentinel
 | Password expiration    | Password expires in 90 day(s)                                |
 | Prevent password reuse | Remember last 2 password(s) and prevent reuse                |
 
+- [IAM/sentinel/check-iam-password-complexity.sentinel](./IAM/sentinel/check-iam-password-complexity.sentinel)
+- 
+
 
 
 ## Network Usecase
