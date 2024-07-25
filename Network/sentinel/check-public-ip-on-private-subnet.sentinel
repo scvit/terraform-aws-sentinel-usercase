@@ -10,11 +10,11 @@ private_subnet_ids = filter tfplan.resource_changes as _, rc {
 # (EN) Ensure that your Elastic IP is not assigned to a resource on a private subnet
 prevent_public_ip_on_private_subnet = rule {
     all tfplan.resource_changes as _, rc {
-        rc.type is "aws_eip" and
-        (rc.change.after.instance is not null or rc.change.after.network_interface is not null) implies
+        rc.type is not "aws_eip" or
+        (rc.change.after.instance is null and rc.change.after.network_interface is null) or
         all tfplan.resource_changes as _, instance_rc {
-            (instance_rc.address is rc.change.after.instance or
-             instance_rc.address is rc.change.after.network_interface) implies
+            (instance_rc.address is not rc.change.after.instance and
+             instance_rc.address is not rc.change.after.network_interface) or
             instance_rc.change.after.subnet_id not in private_subnet_ids
         }
     }
