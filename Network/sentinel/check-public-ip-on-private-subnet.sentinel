@@ -16,8 +16,7 @@ for tfplan.resource_changes as _, rc {
 
 # Null 체크 함수
 is_null_or_empty = func(v) {
-    v is null or
-    length(v) == 0
+    return v is null or length(v) == 0
 }
 
 # (KR) Elastic IP가 프라이빗 서브넷의 리소스에 할당되지 않도록 확인
