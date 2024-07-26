@@ -73,7 +73,7 @@ resource "aws_instance" "private_instance" {
   }
 }
 
-# Elastic IP 생성
+# Elastic IP 생성 - 위반사항
 resource "aws_eip" "private_instance_eip" {
   domain   = "vpc"
   instance = aws_instance.private_instance.id

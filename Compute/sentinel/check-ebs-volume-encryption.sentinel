@@ -1,0 +1,27 @@
+import "tfplan-functions" as plan
+
+aws_ebs_volume = plan.find_resources("aws_ebs_volume")
+aws_instance = plan.find_resources("aws_instance")
+
+# (KR) EBS 볼륨 암호화 확인 정책
+# (EN) EBS Volume Encryption Verification Policy
+encrypt_ebs_volumes = rule {
+  all aws_ebs_volume as _, volumes {
+    volumes.change.after.encrypted is true
+  }
+}
+
+# (KR) EC2 루트 볼륨 암호화 확인 정책
+# (EN) EC2 Root Volume Encryption Verification Policy
+encrypt_ec2_root_volumes = rule {
+  all aws_instance as _, instances {
+    all instances.change.after.root_block_device as _, device {
+      device.encrypted is true
+    }
+  }
+}
+
+main = rule {
+  encrypt_ebs_volumes and
+  encrypt_ec2_root_volumes
+}

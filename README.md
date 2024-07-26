@@ -24,12 +24,20 @@
 
 
 
-## Network Usecase
+## Network Usecase (Not available)
 
 | Case                                                         | Conditions                                                   |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Prevent assigning public IPs to private subnet resources     | Verify that the public IP assigned by Elastic IPs is granted to a service located in a private subnet |
 | Prevent resources from connecting to both public and private subnets simultaneously | If a resource has more than one network interface (Elastic Network Interface) associated with it, verify that public and private subnets are not mixed |
+
+When running Sentinel policies during the Terraform planning phase, it is difficult to fully verify the details of a resource before it is created. In particular, verifying whether the instance or network interface associated with an EIP is on a private subnet can be difficult for the following reasons
+
+- Planning phase constraints: Sentinel policies perform verification when Terraform plans are applied, but the actual resource has not yet been created or deployed. This means that the instance or network interface to which the EIP will be attached may not have been created yet, or the subnet information for that instance may not be fully defined.
+
+- Lack of subnet information: You might only know the subnet ID of the instance or network interface to which the EIP will connect, but the actual details of the subnet (for example, whether the subnet is private) might not be specified in the Terraform plan. In this case, validation can be difficult because the resources that need the subnet information do not yet exist.
+
+Therefore, it is difficult to distinguish using only Sentinel, and it is possible to do so by intentionally assigning tags or naming rules.
 
 
 
@@ -39,6 +47,9 @@
 | -------------------------------- | ------------------------------------------------------------ |
 | EBS Volume Encryption            | Verify EBS Volume Encryption Settings                        |
 | Restrict access to EBS snapshots | Set the Snapshot share permissions entry<br />Shared accounts must exist within the Permissions tab |
+
+- [Compute/sentinel/check-ebs-volume-encryption.sentinel](./Compute/sentinel/check-ebs-volume-encryption.sentinel)
+- [Compute/sentinel/check-snapshot-restrict-access.sentinel](./Compute/sentinel/check-snapshot-restrict-access.sentinel)
 
 
 

@@ -1,0 +1,14 @@
+import "tfplan-functions" as plan
+
+aws_ebs_snapshot = plan.find_resources("aws_ebs_snapshot")
+aws_snapshot_create_volume_permission = plan.find_resources("aws_snapshot_create_volume_permission")
+
+# (KR) EBS 스냅샷 설정시 권한 설정 반드시 설정
+# (EN) Be sure to set permissions when setting up EBS snapshots
+snapshot_permissions_mapping = rule {
+  length(aws_ebs_snapshot) == length(aws_snapshot_create_volume_permission)
+}
+
+main = rule {
+  snapshot_permissions_mapping
+}
