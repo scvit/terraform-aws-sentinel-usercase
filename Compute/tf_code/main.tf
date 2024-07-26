@@ -1,7 +1,7 @@
 # VPC 생성
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
-  
+
   tags = {
     Name = "Main VPC"
   }
@@ -11,7 +11,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "main" {
   vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(aws_vpc.main.cidr_block, 8, 1)
-  
+
   tags = {
     Name = "Main Subnet"
   }
@@ -78,7 +78,7 @@ resource "aws_ebs_volume" "example" {
   availability_zone = "${var.region}a"
   size              = 40
 
-  encrypted  = true
+  encrypted = true
   # kms_key_id = aws_kms_key.ebs_key.arn
 
   tags = {
@@ -88,7 +88,7 @@ resource "aws_ebs_volume" "example" {
 
 # EC2 인스턴스 생성
 resource "aws_instance" "example" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2 AMI (HVM), SSD Volume Type
+  ami           = "ami-0c55b159cbfafe1f0" # Amazon Linux 2 AMI (HVM), SSD Volume Type
   instance_type = "t3.micro"
 
   subnet_id                   = aws_subnet.main.id
@@ -127,5 +127,5 @@ resource "aws_ebs_snapshot" "example_snapshot" {
 # 스냅샷 공유 권한 설정 - 스냅샷 있는 경우 항상 같이 있어야 함
 resource "aws_snapshot_create_volume_permission" "example_permission" {
   snapshot_id = aws_ebs_snapshot.example_snapshot.id
-  account_id  = "123456789012"  # 공유할 AWS 계정 ID
+  account_id  = "123456789012" # 공유할 AWS 계정 ID
 }
