@@ -23,5 +23,5 @@ check_cluster_security_group = rule {
 # (KR) EKS 보안 그룹 할당 여부
 # (EN) Whether to assign an EKS security group
 main = rule {
-  check_secrets_encryption
+  check_cluster_security_group
 }

@@ -1,4 +1,5 @@
 import "tfplan-functions" as plan
+import "strings"
 
 aws_eks_node_group = plan.find_resources("aws_eks_node_group")
 aws_route_table = plan.find_resources("aws_route_table")
