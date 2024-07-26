@@ -1,0 +1,115 @@
+import "tfplan/v2" as tfplan
+import "collection/maps" as maps
+import "strings"
+
+# 리소스를 찾는 함수
+find_resources = func(type) {
+  return filter tfplan.resource_changes as _, rc {
+    rc.type is type and
+    rc.mode is "managed" and
+    (rc.change.actions contains "create" or rc.change.actions contains "update" or
+     rc.change.actions contains "read" or (rc.change.actions contains "no-op" and
+     rc.change.after is not null))
+  }
+}
+
+# 프라이빗 서브넷 ID 목록 생성
+all_subnet = find_resources("aws_subnet")
+private_subnet_ids = []
+for all_subnet as _, rc {
+    if rc.change.after is not null {
+        if not rc.change.after.map_public_ip_on_launch {
+          private_subnet_ids = append(private_subnet_ids, rc.change.after.id)
+		    }
+    }
+}
+
+# EIP가 프라이빗 서브넷에 연관되지 않도록 검증하는 함수
+eip_not_associated_with_private_subnet = func(eip) {
+    validated = true
+  
+  	eip_change_after = {}
+  	for eip.change.after as k, v {
+      	eip_change_after = maps.set(eip_change_after, k, v)
+    }
+    for eip.change.after_unknown as k, v {
+      	eip_change_after = maps.set(eip_change_after, k, v)
+    }
+  
+    if eip_change_after.instance is defined {
+        associated_instance_id = eip_change_after.instance
+
+        # EIP와 연결된 인스턴스를 찾고, 그 인스턴스의 서브넷을 확인
+        associated_instance = find_resources("aws_instance")
+      	
+        instance_subnet_id = null
+        for associated_instance as _, instance_rc {
+            instance_change_after = {}
+            for instance_rc.change.after as k, v {
+                instance_change_after = maps.set(instance_change_after, k, v)
+            }
+            for instance_rc.change.after_unknown as k, v {
+                instance_change_after = maps.set(instance_change_after, k, v)
+            }
+            if instance_change_after.id == associated_instance_id {
+                instance_subnet_id = instance_change_after.subnet_id
+                break
+            }
+        }
+
+        if instance_subnet_id is defined {
+           print("private_subnet_ids = ",private_subnet_ids)
+           if instance_subnet_id in private_subnet_ids { 
+            	validated = false
+           }
+        }
+    }
+    
+    if eip.change.after.network_interface is defined {
+        associated_eni_id = eip.change.after.network_interface
+
+        # EIP와 연결된 ENI를 찾고, 그 ENI의 서브넷을 확인
+        associated_eni = find_resources("aws_network_interface")
+        eni_subnet_id = null
+        for associated_eni as _, eni_rc {
+            if associated_eni.change.after.id == associated_eni_id {
+                eni_subnet_id = associated_eni.change.after.subnet_id
+                break
+            }
+        }
+        if eni_subnet_id is not null and eni_subnet_id in private_subnet_ids {
+            validated = false
+        }
+    }
+    
+    if eip.change.after_unknown.network_interface is defined {
+        associated_eni_id = eip.change.after_unknown.network_interface
+
+        # EIP와 연결된 ENI를 찾고, 그 ENI의 서브넷을 확인
+        associated_eni = find_resources("aws_network_interface")
+        eni_subnet_id = null
+        for associated_eni as _, eni_rc {
+            if associated_eni.change.after.id == associated_eni_id {
+                eni_subnet_id = associated_eni.change.after.subnet_id
+                break
+            }
+        }
+        if eni_subnet_id is not null and eni_subnet_id in private_subnet_ids {
+            validated = false
+        }
+    }
+
+    return validated
+}
+
+# 모든 EIP 리소스 검토
+all_eip = find_resources("aws_eip")
+eip_rule = rule {
+    all all_eip as _, eip {
+        eip_not_associated_with_private_subnet(eip)
+    }
+}
+
+main = rule {
+    eip_rule
+}
