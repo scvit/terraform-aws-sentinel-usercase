@@ -23,5 +23,5 @@ check_kms_encryption = rule {
 # (KR) ECR의 암호화 여부 확인
 # (EN) Check if your ECR is encrypted
 main = rule {
-  check_vulnerability_scanning
+  check_kms_encryption
 }
