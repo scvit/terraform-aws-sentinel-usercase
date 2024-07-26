@@ -21,6 +21,8 @@ encrypt_ec2_root_volumes = rule {
   }
 }
 
+# (KR) 볼륨 암호화 여부 확인
+# (EN) Determine whether a volume is encrypted
 main = rule {
   encrypt_ebs_volumes and
   encrypt_ec2_root_volumes

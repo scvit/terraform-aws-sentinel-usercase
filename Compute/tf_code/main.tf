@@ -100,7 +100,7 @@ resource "aws_instance" "example" {
   root_block_device {
     volume_type = "gp2"
     volume_size = 8
-    encrypted   = true
+    encrypted   = true # Sentinel 조건
   }
 
   tags = {
@@ -124,7 +124,7 @@ resource "aws_ebs_snapshot" "example_snapshot" {
   }
 }
 
-# 스냅샷 공유 권한 설정
+# 스냅샷 공유 권한 설정 - 스냅샷 있는 경우 항상 같이 있어야 함
 resource "aws_snapshot_create_volume_permission" "example_permission" {
   snapshot_id = aws_ebs_snapshot.example_snapshot.id
   account_id  = "123456789012"  # 공유할 AWS 계정 ID
