@@ -6,7 +6,7 @@ aws_lambda_function = plan.find_resources("aws_lambda_function")
 # (EN) Policy to check if a Lambda function has VPC settings specified
 validate_lambda_vpc_config = rule {
   all aws_lambda_function as _, lambda {
-    lambda.change.after.vpc_config is defined
+    length(lambda.change.after.vpc_config) > 0
   }
 }
 
