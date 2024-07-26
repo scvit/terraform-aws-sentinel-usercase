@@ -1,0 +1,39 @@
+import "tfplan-functions" as plan
+import "json"
+
+aws_ecr_repository = plan.find_resources("aws_ecr_repository")
+aws_ecr_repository_policy = plan.find_resources("aws_ecr_repository_policy")
+
+# (KR) 저장되는 이미지 태그를 임의로 변경 불가능하도록 설정 여부 확인
+# (EN) Ensure that image tags saved are not arbitrarily changeable
+check_ecr_private = rule {
+  all aws_ecr_repository as _, repo {
+    repo.change.after.image_tag_mutability is "IMMUTABLE"
+  }
+}
+
+principal_check = func(obj) {
+  aws_policy = json.unmarshal(obj)
+  for aws_policy.Statement as statement {
+    if statement.Principal is not empty {
+      return true
+    } else {
+      return false
+    }    
+  }
+}
+
+# (KR) ECR 리포지토리가 프라이빗으로 설정되어 있는지 확인
+# (EN) Make sure your ECR repository is set to private
+check_repository_policy = rule {
+  all aws_ecr_repository_policy as _, policy {
+     policy.change.after.policy is not null and principal_check(policy.change.after.policy)
+  }
+}
+
+# (KR) ECR 접근 규칙 및 태그 조건 확인
+# (EN) Check ECR access rules and tag conditions
+main = rule {
+  check_ecr_private and
+  check_repository_policy
+}

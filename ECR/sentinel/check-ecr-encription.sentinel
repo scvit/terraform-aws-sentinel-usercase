@@ -1,0 +1,27 @@
+import "tfplan-functions" as plan
+
+aws_ecr_repository = plan.find_resources("aws_ecr_repository")
+
+encryption_check = func(configs) {
+  valid = false
+  for configs as config {
+    if config.encryption_type is "KMS" {
+      valid = true
+    }
+  }
+  return valid
+}
+
+# (KR) KMS 암호화가 설정되어 있는지 확인
+# (EN) Make sure KMS encryption is enabled
+check_kms_encryption = rule {
+  all aws_ecr_repository as _, repo {
+    encryption_check(repo.change.after.encryption_configuration)
+  }
+}
+
+# (KR) ECR의 암호화 여부 확인
+# (EN) Check if your ECR is encrypted
+main = rule {
+  check_vulnerability_scanning
+}

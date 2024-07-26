@@ -1,0 +1,27 @@
+import "tfplan-functions" as plan
+
+aws_ecr_repository = plan.find_resources("aws_ecr_repository")
+
+scan_on_push_check = func(configs) {
+  valid = false
+  for configs as config {
+    if config.scan_on_push is true {
+      valid = true
+    }
+  }
+  return valid
+}
+
+# (KR) 취약점 스캐닝이 활성화되어 있는지 확인
+# (EN) Make sure vulnerability scanning is enabled
+check_vulnerability_scanning = rule {
+  all aws_ecr_repository as _, repo {
+    scan_on_push_check(repo.change.after.image_scanning_configuration)
+  }
+}
+
+# (KR) 취약점 스캐닝이 확인
+# (EN) Make sure vulnerability scanning
+main = rule {
+  check_vulnerability_scanning
+}

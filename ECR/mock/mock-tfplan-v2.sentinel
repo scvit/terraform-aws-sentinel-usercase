@@ -1,0 +1,656 @@
+terraform_version = "1.9.3"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"aws_ecr_lifecycle_policy.main_lifecycle_policy": {
+			"address":        "aws_ecr_lifecycle_policy.main_lifecycle_policy",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "main_lifecycle_policy",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_ecr_lifecycle_policy",
+			"values": {
+				"policy":     "{\"rules\":[{\"action\":{\"type\":\"expire\"},\"description\":\"Keep last 10 images\",\"rulePriority\":1,\"selection\":{\"countNumber\":10,\"countType\":\"imageCountMoreThan\",\"tagStatus\":\"any\"}}]}",
+				"repository": "my-ecr-repo",
+			},
+		},
+		"aws_ecr_repository.main": {
+			"address":        "aws_ecr_repository.main",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "main",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_ecr_repository",
+			"values": {
+				"encryption_configuration": [
+					{
+						"encryption_type": "KMS",
+					},
+				],
+				"force_delete": null,
+				"image_scanning_configuration": [
+					{
+						"scan_on_push": true,
+					},
+				],
+				"image_tag_mutability": "IMMUTABLE",
+				"name":                 "my-ecr-repo",
+				"tags":                 null,
+				"timeouts":             null,
+			},
+		},
+		"aws_ecr_repository_policy.main_policy": {
+			"address":        "aws_ecr_repository_policy.main_policy",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "main_policy",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_ecr_repository_policy",
+			"values": {
+				"policy":     "{\"Statement\":[{\"Action\":[\"ecr:GetDownloadUrlForLayer\",\"ecr:BatchGetImage\",\"ecr:BatchCheckLayerAvailability\",\"ecr:PutImage\",\"ecr:InitiateLayerUpload\",\"ecr:UploadLayerPart\",\"ecr:CompleteLayerUpload\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::467567795630:root\"},\"Sid\":\"AllowPushPull\"}],\"Version\":\"2012-10-17\"}",
+				"repository": "my-ecr-repo",
+			},
+		},
+		"aws_kms_key.ecr_key": {
+			"address":        "aws_kms_key.ecr_key",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "ecr_key",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_kms_key",
+			"values": {
+				"bypass_policy_lockout_safety_check": false,
+				"custom_key_store_id":                null,
+				"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+				"deletion_window_in_days":            10,
+				"description":                        "KMS key for ECR image encryption",
+				"enable_key_rotation":                true,
+				"is_enabled":                         true,
+				"key_usage":                          "ENCRYPT_DECRYPT",
+				"tags":                               null,
+				"timeouts":                           null,
+				"xks_key_id":                         null,
+			},
+		},
+	},
+}
+
+variables = {
+	"region": {
+		"name":  "region",
+		"value": "ap-northeast-2",
+	},
+}
+
+resource_changes = {
+	"aws_ecr_lifecycle_policy.main_lifecycle_policy": {
+		"address": "aws_ecr_lifecycle_policy.main_lifecycle_policy",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"policy":     "{\"rules\":[{\"action\":{\"type\":\"expire\"},\"description\":\"Keep last 10 images\",\"rulePriority\":1,\"selection\":{\"countNumber\":10,\"countType\":\"imageCountMoreThan\",\"tagStatus\":\"any\"}}]}",
+				"repository": "my-ecr-repo",
+			},
+			"after_unknown": {
+				"id":          true,
+				"registry_id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "main_lifecycle_policy",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_ecr_lifecycle_policy",
+	},
+	"aws_ecr_repository.main": {
+		"address": "aws_ecr_repository.main",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"encryption_configuration": [
+					{
+						"encryption_type": "KMS",
+					},
+				],
+				"force_delete": null,
+				"image_scanning_configuration": [
+					{
+						"scan_on_push": true,
+					},
+				],
+				"image_tag_mutability": "IMMUTABLE",
+				"name":                 "my-ecr-repo",
+				"tags":                 null,
+				"timeouts":             null,
+			},
+			"after_unknown": {
+				"arn": true,
+				"encryption_configuration": [
+					{
+						"kms_key": true,
+					},
+				],
+				"id": true,
+				"image_scanning_configuration": [
+					{},
+				],
+				"registry_id":    true,
+				"repository_url": true,
+				"tags_all":       true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "main",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_ecr_repository",
+	},
+	"aws_ecr_repository_policy.main_policy": {
+		"address": "aws_ecr_repository_policy.main_policy",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"policy":     "{\"Statement\":[{\"Action\":[\"ecr:GetDownloadUrlForLayer\",\"ecr:BatchGetImage\",\"ecr:BatchCheckLayerAvailability\",\"ecr:PutImage\",\"ecr:InitiateLayerUpload\",\"ecr:UploadLayerPart\",\"ecr:CompleteLayerUpload\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::467567795630:root\"},\"Sid\":\"AllowPushPull\"}],\"Version\":\"2012-10-17\"}",
+				"repository": "my-ecr-repo",
+			},
+			"after_unknown": {
+				"id":          true,
+				"registry_id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "main_policy",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_ecr_repository_policy",
+	},
+	"aws_kms_key.ecr_key": {
+		"address": "aws_kms_key.ecr_key",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"bypass_policy_lockout_safety_check": false,
+				"custom_key_store_id":                null,
+				"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+				"deletion_window_in_days":            10,
+				"description":                        "KMS key for ECR image encryption",
+				"enable_key_rotation":                true,
+				"is_enabled":                         true,
+				"key_usage":                          "ENCRYPT_DECRYPT",
+				"tags":                               null,
+				"timeouts":                           null,
+				"xks_key_id":                         null,
+			},
+			"after_unknown": {
+				"arn":                     true,
+				"id":                      true,
+				"key_id":                  true,
+				"multi_region":            true,
+				"policy":                  true,
+				"rotation_period_in_days": true,
+				"tags_all":                true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "ecr_key",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_kms_key",
+	},
+}
+
+resource_drift = {}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"aws": {
+				"expressions": {
+					"region": {
+						"references": [
+							"var.region",
+						],
+					},
+				},
+				"full_name":          "registry.terraform.io/hashicorp/aws",
+				"name":               "aws",
+				"version_constraint": "~> 5.0",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "aws_ecr_lifecycle_policy.main_lifecycle_policy",
+					"expressions": {
+						"policy": {},
+						"repository": {
+							"references": [
+								"aws_ecr_repository.main.name",
+								"aws_ecr_repository.main",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "main_lifecycle_policy",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_ecr_lifecycle_policy",
+				},
+				{
+					"address": "aws_ecr_repository.main",
+					"expressions": {
+						"encryption_configuration": [
+							{
+								"encryption_type": {
+									"constant_value": "KMS",
+								},
+								"kms_key": {
+									"references": [
+										"aws_kms_key.ecr_key.arn",
+										"aws_kms_key.ecr_key",
+									],
+								},
+							},
+						],
+						"image_scanning_configuration": [
+							{
+								"scan_on_push": {
+									"constant_value": true,
+								},
+							},
+						],
+						"image_tag_mutability": {
+							"constant_value": "IMMUTABLE",
+						},
+						"name": {
+							"constant_value": "my-ecr-repo",
+						},
+					},
+					"mode":                "managed",
+					"name":                "main",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_ecr_repository",
+				},
+				{
+					"address": "aws_ecr_repository_policy.main_policy",
+					"expressions": {
+						"policy": {
+							"references": [
+								"data.aws_caller_identity.current.account_id",
+								"data.aws_caller_identity.current",
+							],
+						},
+						"repository": {
+							"references": [
+								"aws_ecr_repository.main.name",
+								"aws_ecr_repository.main",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "main_policy",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_ecr_repository_policy",
+				},
+				{
+					"address": "aws_kms_key.ecr_key",
+					"expressions": {
+						"deletion_window_in_days": {
+							"constant_value": 10,
+						},
+						"description": {
+							"constant_value": "KMS key for ECR image encryption",
+						},
+						"enable_key_rotation": {
+							"constant_value": true,
+						},
+					},
+					"mode":                "managed",
+					"name":                "ecr_key",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_kms_key",
+				},
+				{
+					"address":             "data.aws_caller_identity.current",
+					"mode":                "data",
+					"name":                "current",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_caller_identity",
+				},
+			],
+			"variables": {
+				"region": {
+					"default": "ap-northeast-2",
+				},
+			},
+		},
+	},
+	"format_version": "1.2",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":          "aws_ecr_lifecycle_policy.main_lifecycle_policy",
+					"mode":             "managed",
+					"name":             "main_lifecycle_policy",
+					"provider_name":    "registry.terraform.io/hashicorp/aws",
+					"schema_version":   0,
+					"sensitive_values": {},
+					"type":             "aws_ecr_lifecycle_policy",
+					"values": {
+						"policy":     "{\"rules\":[{\"action\":{\"type\":\"expire\"},\"description\":\"Keep last 10 images\",\"rulePriority\":1,\"selection\":{\"countNumber\":10,\"countType\":\"imageCountMoreThan\",\"tagStatus\":\"any\"}}]}",
+						"repository": "my-ecr-repo",
+					},
+				},
+				{
+					"address":        "aws_ecr_repository.main",
+					"mode":           "managed",
+					"name":           "main",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"encryption_configuration": [
+							{},
+						],
+						"image_scanning_configuration": [
+							{},
+						],
+						"tags_all": {},
+					},
+					"type": "aws_ecr_repository",
+					"values": {
+						"encryption_configuration": [
+							{
+								"encryption_type": "KMS",
+							},
+						],
+						"force_delete": null,
+						"image_scanning_configuration": [
+							{
+								"scan_on_push": true,
+							},
+						],
+						"image_tag_mutability": "IMMUTABLE",
+						"name":                 "my-ecr-repo",
+						"tags":                 null,
+						"timeouts":             null,
+					},
+				},
+				{
+					"address":          "aws_ecr_repository_policy.main_policy",
+					"mode":             "managed",
+					"name":             "main_policy",
+					"provider_name":    "registry.terraform.io/hashicorp/aws",
+					"schema_version":   0,
+					"sensitive_values": {},
+					"type":             "aws_ecr_repository_policy",
+					"values": {
+						"policy":     "{\"Statement\":[{\"Action\":[\"ecr:GetDownloadUrlForLayer\",\"ecr:BatchGetImage\",\"ecr:BatchCheckLayerAvailability\",\"ecr:PutImage\",\"ecr:InitiateLayerUpload\",\"ecr:UploadLayerPart\",\"ecr:CompleteLayerUpload\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::467567795630:root\"},\"Sid\":\"AllowPushPull\"}],\"Version\":\"2012-10-17\"}",
+						"repository": "my-ecr-repo",
+					},
+				},
+				{
+					"address":        "aws_kms_key.ecr_key",
+					"mode":           "managed",
+					"name":           "ecr_key",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags_all": {},
+					},
+					"type": "aws_kms_key",
+					"values": {
+						"bypass_policy_lockout_safety_check": false,
+						"custom_key_store_id":                null,
+						"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+						"deletion_window_in_days":            10,
+						"description":                        "KMS key for ECR image encryption",
+						"enable_key_rotation":                true,
+						"is_enabled":                         true,
+						"key_usage":                          "ENCRYPT_DECRYPT",
+						"tags":                               null,
+						"timeouts":                           null,
+						"xks_key_id":                         null,
+					},
+				},
+			],
+		},
+	},
+	"prior_state": {
+		"format_version":    "1.0",
+		"terraform_version": "1.9.3",
+		"values": {
+			"root_module": {
+				"resources": [
+					{
+						"address":          "data.aws_caller_identity.current",
+						"mode":             "data",
+						"name":             "current",
+						"provider_name":    "registry.terraform.io/hashicorp/aws",
+						"schema_version":   0,
+						"sensitive_values": {},
+						"type":             "aws_caller_identity",
+						"values": {
+							"account_id": "467567795630",
+							"arn":        "arn:aws:sts::467567795630:assumed-role/aws_gs.lee_test-developer/gs.lee@hashicorp.com",
+							"id":         "467567795630",
+							"user_id":    "AROAWZXJWLWXEYL6LSMRE:gs.lee@hashicorp.com",
+						},
+					},
+				],
+			},
+		},
+	},
+	"relevant_attributes": [
+		{
+			"attribute": [
+				"arn",
+			],
+			"resource": "aws_kms_key.ecr_key",
+		},
+		{
+			"attribute": [
+				"name",
+			],
+			"resource": "aws_ecr_repository.main",
+		},
+		{
+			"attribute": [
+				"account_id",
+			],
+			"resource": "data.aws_caller_identity.current",
+		},
+	],
+	"resource_changes": [
+		{
+			"address": "aws_ecr_lifecycle_policy.main_lifecycle_policy",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"policy":     "{\"rules\":[{\"action\":{\"type\":\"expire\"},\"description\":\"Keep last 10 images\",\"rulePriority\":1,\"selection\":{\"countNumber\":10,\"countType\":\"imageCountMoreThan\",\"tagStatus\":\"any\"}}]}",
+					"repository": "my-ecr-repo",
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"id":          true,
+					"registry_id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "main_lifecycle_policy",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_ecr_lifecycle_policy",
+		},
+		{
+			"address": "aws_ecr_repository.main",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"encryption_configuration": [
+						{
+							"encryption_type": "KMS",
+						},
+					],
+					"force_delete": null,
+					"image_scanning_configuration": [
+						{
+							"scan_on_push": true,
+						},
+					],
+					"image_tag_mutability": "IMMUTABLE",
+					"name":                 "my-ecr-repo",
+					"tags":                 null,
+					"timeouts":             null,
+				},
+				"after_sensitive": {
+					"encryption_configuration": [
+						{},
+					],
+					"image_scanning_configuration": [
+						{},
+					],
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn": true,
+					"encryption_configuration": [
+						{
+							"kms_key": true,
+						},
+					],
+					"id": true,
+					"image_scanning_configuration": [
+						{},
+					],
+					"registry_id":    true,
+					"repository_url": true,
+					"tags_all":       true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "main",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_ecr_repository",
+		},
+		{
+			"address": "aws_ecr_repository_policy.main_policy",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"policy":     "{\"Statement\":[{\"Action\":[\"ecr:GetDownloadUrlForLayer\",\"ecr:BatchGetImage\",\"ecr:BatchCheckLayerAvailability\",\"ecr:PutImage\",\"ecr:InitiateLayerUpload\",\"ecr:UploadLayerPart\",\"ecr:CompleteLayerUpload\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::467567795630:root\"},\"Sid\":\"AllowPushPull\"}],\"Version\":\"2012-10-17\"}",
+					"repository": "my-ecr-repo",
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"id":          true,
+					"registry_id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "main_policy",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_ecr_repository_policy",
+		},
+		{
+			"address": "aws_kms_key.ecr_key",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"bypass_policy_lockout_safety_check": false,
+					"custom_key_store_id":                null,
+					"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+					"deletion_window_in_days":            10,
+					"description":                        "KMS key for ECR image encryption",
+					"enable_key_rotation":                true,
+					"is_enabled":                         true,
+					"key_usage":                          "ENCRYPT_DECRYPT",
+					"tags":                               null,
+					"timeouts":                           null,
+					"xks_key_id":                         null,
+				},
+				"after_sensitive": {
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":                     true,
+					"id":                      true,
+					"key_id":                  true,
+					"multi_region":            true,
+					"policy":                  true,
+					"rotation_period_in_days": true,
+					"tags_all":                true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "ecr_key",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_kms_key",
+		},
+	],
+	"terraform_version": "1.9.3",
+	"timestamp":         "2024-07-26T05:33:24Z",
+	"variables": {
+		"region": {
+			"value": "ap-northeast-2",
+		},
+	},
+}
