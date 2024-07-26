@@ -1,0 +1,17 @@
+import "tfplan-functions" as plan
+
+aws_lambda_function = plan.find_resources("aws_lambda_function")
+
+# (KR) Lambda 함수에 VPC 설정이 선언되어야 함
+# (EN) Policy to check if a Lambda function has VPC settings specified
+validate_lambda_vpc_config = rule {
+  all aws_lambda_function as _, lambda {
+    lambda.change.after.vpc_config is defined
+  }
+}
+
+# (KR) Lambda 함수에 VPC 설정 확인
+# (EN) Verify VPC settings for Lambda functions
+main = rule {
+  validate_lambda_vpc_config
+}
