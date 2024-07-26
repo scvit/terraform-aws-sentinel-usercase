@@ -8,7 +8,7 @@ policy "check-ebs-volume-encryption" {
   enforcement_level = "soft-mandatory"
 }
 
-policy "check-ebs-volume-encryption" {
+policy "check-snapshot-restrict-access.sentinel" {
   source = "./check-snapshot-restrict-access.sentinel"
   enforcement_level = "soft-mandatory"
 }
