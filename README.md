@@ -20,7 +20,7 @@
 
 (IAM Password policy check - screenshot)
 
-![Monosnap run-8rURPeHguShHZ6B5 | Runs | policy_iam_password | great-stone-biz | HCP Terraform 2024-07-25 14-58-45](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-8rURPeHguShHZ6B5%20%7C%20Runs%20%7C%20policy_iam_password%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-25%2014-58-45.png)
+![Runs | policy_iam_password | great-stone-biz | HCP Terraform 2024-07-25 14-58-45](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-8rURPeHguShHZ6B5%20%7C%20Runs%20%7C%20policy_iam_password%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-25%2014-58-45.png)
 
 
 
@@ -57,7 +57,7 @@ Therefore, it is difficult to distinguish using only Sentinel, and it is possibl
 
 (Compute policy check - screenshot)
 
-![Monosnap run-6WjAkCfmJ9JjJsH3 | Runs | policy_compute_condition | great-stone-biz | HCP Terraform 2024-07-26 09-10-26](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-6WjAkCfmJ9JjJsH3%20%7C%20Runs%20%7C%20policy_compute_condition%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-26%2009-10-26.png)
+![Runs | policy_compute_condition | great-stone-biz | HCP Terraform 2024-07-26 09-10-26](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-6WjAkCfmJ9JjJsH3%20%7C%20Runs%20%7C%20policy_compute_condition%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-26%2009-10-26.png)
 
 
 
@@ -66,6 +66,14 @@ Therefore, it is difficult to distinguish using only Sentinel, and it is possibl
 | Case                              | Conditions                                                |
 | --------------------------------- | --------------------------------------------------------- |
 | Lambda is configured inside a VPC | Check the VPC list in the Lambda Function's configuration |
+
+[Lambda/sentinel/check-lambda-vpc-config.sentinel](./Lambda/sentinel/check-lambda-vpc-config.sentinel)
+
+
+
+(Lambda policy check - screenshot)
+
+![Runs | policy_lambda_vpc | great-stone-biz | HCP Terraform 2024-07-26 10-47-32](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-WqpdjhQVbdBN6E4Y%20%7C%20Runs%20%7C%20policy_lambda_vpc%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-26%2010-47-32.png)
 
 
 
