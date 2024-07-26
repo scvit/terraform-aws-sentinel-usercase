@@ -86,6 +86,18 @@ Therefore, it is difficult to distinguish using only Sentinel, and it is possibl
 | Restrict access to the Control Plane API Server endpoint | Verify that no policies are allowed in the `Cluster security group`<br />Verify that no policies are allowed in `Additional security groups` |
 | Node group is located on a private subnet                | Verify that subnets in Node Groups are set to private subnets<br />Verify that subnets in Node Groups do not have `igw-xxxxxxxx` specified in Route Table target<br />Check the Cluster security group disabled setting |
 
+When running Sentinel policies during the terraform planning phase, it is difficult to fully verify the details of a resource before it is created. Verifying that a network interface is on a private subnet can be difficult for the following reasons.
+
+- Planning phase constraints: Sentinel policies perform verification when a Terraform plan has been applied but the actual resource has not yet been created or deployed. This means that the network interfaces that will connect to the EKS node group might not have been created yet, or the subnet information for that instance might not be fully defined.
+
+
+
+(EKS policy check - screenshot)
+
+![Runs | policy_eks_security | great-stone-biz | HCP Terraform 2024-07-26 14-09-31](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-WmWfYxVT9LdcRcUD%20%7C%20Runs%20%7C%20policy_eks_security%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-26%2014-09-31.png)
+
+
+
 
 
 ## ECR Usercase 
