@@ -4,12 +4,6 @@
 
 
 
-(IAM Password policy check - example)
-
-![Monosnap run-8rURPeHguShHZ6B5 | Runs | policy_iam_password | great-stone-biz | HCP Terraform 2024-07-25 14-58-45](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-8rURPeHguShHZ6B5%20%7C%20Runs%20%7C%20policy_iam_password%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-25%2014-58-45.png)
-
-
-
 ## IAM Usecase
 
 | Case                   | Condtions                                                    |
@@ -21,6 +15,14 @@
 - [IAM/sentinel/check-iam-password-complexity.sentinel](./IAM/sentinel/check-iam-password-complexity.sentinel)
 - [IAM/sentinel/check-iam-password-expiration.sentinel](./IAM/sentinel/check-iam-password-expiration.sentinel)
 - [IAM/sentinel/check-iam-password-reuse-count.sentinel](./IAM/sentinel/check-iam-password-reuse-count.sentinel)
+
+
+
+(IAM Password policy check - screenshot)
+
+![Monosnap run-8rURPeHguShHZ6B5 | Runs | policy_iam_password | great-stone-biz | HCP Terraform 2024-07-25 14-58-45](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-8rURPeHguShHZ6B5%20%7C%20Runs%20%7C%20policy_iam_password%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-25%2014-58-45.png)
+
+
 
 
 
@@ -50,6 +52,12 @@ Therefore, it is difficult to distinguish using only Sentinel, and it is possibl
 
 - [Compute/sentinel/check-ebs-volume-encryption.sentinel](./Compute/sentinel/check-ebs-volume-encryption.sentinel)
 - [Compute/sentinel/check-snapshot-restrict-access.sentinel](./Compute/sentinel/check-snapshot-restrict-access.sentinel)
+
+
+
+(Compute policy check - screenshot)
+
+![Monosnap run-6WjAkCfmJ9JjJsH3 | Runs | policy_compute_condition | great-stone-biz | HCP Terraform 2024-07-26 09-10-26](https://raw.githubusercontent.com/Great-Stone/images/master/picgo/Monosnap%20run-6WjAkCfmJ9JjJsH3%20%7C%20Runs%20%7C%20policy_compute_condition%20%7C%20great-stone-biz%20%7C%20HCP%20Terraform%202024-07-26%2009-10-26.png)
 
 
 
