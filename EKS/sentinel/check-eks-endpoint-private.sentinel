@@ -1,0 +1,27 @@
+import "tfplan-functions" as plan
+
+aws_eks_cluster = plan.find_resources("aws_eks_cluster")
+
+vpc_config_public_disable = func(vpc_configs) {
+  valid = true
+  for vpc_configs as _, config {
+    if config.endpoint_public_access is true {
+			valid = false
+    }
+  }
+  return valid
+}
+
+# (KR) API 서버 엔드포인트 접근이 프라이빗인지 확인
+# (EN) Ensure API server endpoint access is private
+check_private_api_access = rule {
+  all aws_eks_cluster as _, cluster {
+    vpc_config_public_disable(cluster.change.after.vpc_config)
+  }
+}
+
+# (KR) EKS endpoint 프라이빗 확인
+# (EN) EKS endpoint private verification
+main = rule {
+  check_private_api_access
+}

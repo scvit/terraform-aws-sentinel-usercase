@@ -1,0 +1,30 @@
+import "tfplan-functions" as plan
+
+aws_eks_node_group = plan.find_resources("aws_eks_node_group")
+aws_route_table = plan.find_resources("aws_route_table")
+
+# (KR) 노드 그룹이 프라이빗 서브넷에 위치하는지 확인
+# (EN) Verify that the node group is located on a private subnet
+# check_cluster_security_group = rule {
+#   all aws_eks_cluster as _, cluster {
+#     vpc_config_security_group_empty(cluster.change.after.vpc_config)
+#   }
+# }
+
+# (KR) 노드 그룹 서브넷의 라우트 테이블에 IGW가 지정되지 않았는지 확인
+# (EN) Verify that IGW is not specified in the route table for the node group subnet
+check_route_table = rule {
+  all aws_route_table as _, route_table {
+    all route_table.change.after.route as route {
+      route.gateway_id is null or
+      not strings.has_prefix(route.gateway_id, "igw-")
+    }
+  }
+}
+
+# (KR) EKS 노드 그룹에 인터넷 게이트웨이 확인
+# (EN) Verify the Internet gateway to the EKS node group
+main = rule {
+  # check_cluster_security_group and
+  check_route_table
+}

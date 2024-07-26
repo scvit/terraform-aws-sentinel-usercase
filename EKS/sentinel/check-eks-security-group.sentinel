@@ -1,0 +1,27 @@
+import "tfplan-functions" as plan
+
+aws_eks_cluster = plan.find_resources("aws_eks_cluster")
+
+vpc_config_security_group_empty = func(vpc_configs) {
+  valid = true
+  for vpc_configs as _, config {
+    if config.cluster_security_group_id is defined {
+			valid = false
+    }
+  }
+  return valid
+}
+
+# (KR) EKS cluster에 보안 그룹이 할당되면 안됨
+# (EN) EKS cluster should not be assigned a security group
+check_cluster_security_group = rule {
+  all aws_eks_cluster as _, cluster {
+    vpc_config_security_group_empty(cluster.change.after.vpc_config)
+  }
+}
+
+# (KR) EKS 보안 그룹 할당 여부
+# (EN) Whether to assign an EKS security group
+main = rule {
+  check_secrets_encryption
+}
