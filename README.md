@@ -4,7 +4,7 @@
 
 
 
-**CAUTION** - the `org name` set in the `terraform` stanza in the Terraform code needs to be modified for your environment
+**CAUTION** - `provider.tf`의 Organization 정보 수정 필요 
 
 
 
