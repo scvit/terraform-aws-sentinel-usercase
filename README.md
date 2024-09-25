@@ -130,12 +130,12 @@ Sentinel 정책이 Terraform Plan 단계에서 심사할 때, 리소스가 만�
 
 ## EKS Usecase
 
-| Case                                                        | Conditions                                                   |
-| ----------------------------------------------------------- | ------------------------------------------------------------ |
-| 1. Encrypting Kubernetes Secrets                            | Verify Kubernetes Secrets encryption Enabled                 |
-| 2. Control Plane endpoint Private                           | Verify that API server endpoint access is Private            |
-| 3. Restrict access to the Control Plane API Server endpoint | Verify that no policies are allowed in the `Cluster security group`<br />Verify that no policies are allowed in `Additional security groups` |
-| 4. Node group is located on a private subnet                | Verify that subnets in Node Groups are set to private subnets<br />Verify that subnets in Node Groups do not have `igw-xxxxxxxx` specified in Route Table target<br />Check the Cluster security group disabled setting |
+| Case                                                         | Conditions                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1. Encrypting Kubernetes Secrets                             | Verify Kubernetes Secrets encryption Enabled                 |
+| 2. Control Plane endpoint Private                            | Verify that API server endpoint access is Private            |
+| 3. Restrict access to the Control Plane API Server endpoint  | Verify that no policies are allowed in the `Cluster security group`<br />Verify that no policies are allowed in `Additional security groups` |
+| 4. Node group is located on a private subnet (Not Available) | Verify that subnets in Node Groups are set to private subnets<br />Verify that subnets in Node Groups do not have `igw-xxxxxxxx` specified in Route Table target<br />Check the Cluster security group disabled setting |
 
 When running Sentinel policies during the terraform planning phase, it is difficult to fully verify the details of a resource before it is created. Verifying that a network interface is on a private subnet can be difficult for the following reasons.
 
@@ -153,12 +153,12 @@ When running Sentinel policies during the terraform planning phase, it is diffic
 
 (KR)
 
-| Case                                           | Conditions                                                   |
-| ---------------------------------------------- | ------------------------------------------------------------ |
-| 1. Kubernetes Secret 암호화                    | Kubernetes Secret 암호화 여부 확인                           |
-| 2. Private Control Plane 엔드포인트            | API 서버 엔드포인트 프라이빗 여부 확인                       |
-| 3. Control Plane API 서버 엔드포인트 접근 제한 | `Cluster security group` 및 `Additional security groups`에 정책 미허용 확인 |
-| 4. 노드 그룹 프라이빗 서브넷 존재 여부         | 프라이빗 서브넷에 노드그룹 존재 여부 검증  <br />노드그룹 서브넷 라우팅 테이블에 `igw-xxxxxxxx`를 가지지 못하도록 검증 <br />클러스터 보안그룹 비활성화 확인 |
+| Case                                               | Conditions                                                   |
+| -------------------------------------------------- | ------------------------------------------------------------ |
+| 1. Kubernetes Secret 암호화                        | Kubernetes Secret 암호화 여부 확인                           |
+| 2. Private Control Plane 엔드포인트                | API 서버 엔드포인트 프라이빗 여부 확인                       |
+| 3. Control Plane API 서버 엔드포인트 접근 제한     | `Cluster security group` 및 `Additional security groups`에 정책 미허용 확인 |
+| 4. 노드 그룹 프라이빗 서브넷 존재 여부 (일부 불가) | 프라이빗 서브넷에 노드그룹 존재 여부 검증  <br />노드그룹 서브넷 라우팅 테이블에 `igw-xxxxxxxx`를 가지지 못하도록 검증 <br />클러스터 보안그룹 비활성화 확인 |
 
 리소스 생성 이전에 리소스에 대한 상세 정보를 파악하기 어렵습니다. 아래와 같은 이유로 프라이빗 서브넷에 네트워크 인터페이스가 있는지 검증하기 어렵습니다.
 
